@@ -23,7 +23,7 @@ const Register = () => {
               className="w-full border-b border-white py-2 px-1 bg-gray-900 text-white outline-none placeholder-gray-400"
             />
           </div>
-           <div>
+          <div>
             <label>Password</label>
             <input
               type="password"
@@ -32,10 +32,18 @@ const Register = () => {
             />
           </div>
           <p className="text-sm text-center mt-1">
-            Already have an account ? <span className="text-blue-400 hover:underline">login</span>
+            Already have an account ?{" "}
+            <span className="text-blue-400 hover:underline">login</span>
           </p>
-          <button className="w-full py-2 px-4 bg-gray-300 text-black font-semibold rounded-lg hover:bg-gray-400 transition-colors">Register</button>
-          
+          <button className="w-full py-2 px-4 bg-gray-300 text-black font-semibold rounded-lg hover:bg-gray-400 transition-colors">
+            Register
+          </button>
+
+          <div className="flex items-center gap-[6px] justify-center">
+            <hr className="flex-grow border-gray-500"/>
+            <span> OR </span>
+            <hr className="flex-grow border-gray-500"/> 
+          </div>
         </form>
       </div>
     </div>
