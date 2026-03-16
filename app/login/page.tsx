@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
@@ -9,13 +9,16 @@ const Login = () => {
 const [email, setEmail] = useState("")
 const [password, setPassword] = useState("")
 const router = useRouter()
+const session = useSession()
+console.log(session?.data?.user)
 const handleSignIn = async (e:any)=>{
+  e.preventDefault()
    try {
-    await signIn('credentials', {
+    const result = await signIn('credentials', {
       email, password
     } )
    } catch (error) {
-    
+    console.log(error)
    }
 }
 

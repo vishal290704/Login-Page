@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+import ClientProvider from "./ClientProvider";
 
 
 
@@ -16,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ClientProvider>
         {children}
+        </ClientProvider>
       </body>
     </html>
   );
