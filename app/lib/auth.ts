@@ -49,7 +49,7 @@ const authOptions:NextAuthOptions = {
                 let existUser = await User.findOne({email:user?.email})
                 if(!existUser){
                     let existUser = await User.create({
-                        name = user.name,
+                        name : user.name,
                         email:user?.email 
                     })
                 }

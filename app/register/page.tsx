@@ -1,25 +1,28 @@
-'use client'
+"use client";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
-const [name, setName] = useState("")
-const [email, setEmail] = useState("")
-const [password, setPassword] = useState("")
-const router = useRouter()
-const handleRegister= async (e:any) => {
-    e.preventDefault()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const handleRegister = async (e: any) => {
+    e.preventDefault();
     try {
-      const result = await axios.post('/api/auth/register', {
-        name, email, password
-      })
-      console.log(result)
+      const result = await axios.post("/api/auth/register", {
+        name,
+        email,
+        password,
+      });
+      router.push("/login");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-};
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white px-4">
       <div className="w-full max-w-md border-2 border-white rounded-2xl p-8 shadow-lg bg-gray-900">
@@ -31,7 +34,7 @@ const handleRegister= async (e:any) => {
               type="text"
               placeholder="Enter name"
               className="w-full border-b border-white py-2 px-1 bg-gray-900 text-white outline-none placeholder-gray-400"
-              onChange={(e)=>setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               value={name}
             />
           </div>
@@ -42,7 +45,7 @@ const handleRegister= async (e:any) => {
               type="text"
               placeholder="Enter email"
               className="w-full border-b border-white py-2 px-1 bg-gray-900 text-white outline-none placeholder-gray-400"
-                onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
           </div>
@@ -52,13 +55,16 @@ const handleRegister= async (e:any) => {
               type="password"
               placeholder="Enter password"
               className="w-full border-b border-white py-2 px-1 bg-gray-900 text-white outline-none placeholder-gray-400"
-                onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
           </div>
-          <p className="text-sm text-center mt-1" onClick={()=>{
-            router.push("/login")
-          }}>
+          <p
+            className="text-sm text-center mt-1"
+            onClick={() => {
+              router.push("/login");
+            }}
+          >
             Already have an account ?{" "}
             <span className="text-blue-400 hover:underline">login</span>
           </p>
@@ -71,7 +77,14 @@ const handleRegister= async (e:any) => {
           <span> OR </span>
           <hr className="flex-grow border-gray-500" />
         </div>
-        <button className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-300 transition-colors">
+        <button
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-300 transition-colors"
+          onClick={async () => {
+            await signIn('google', {
+              callbackUrl:"/"
+            });
+          }}
+        >
           <FcGoogle />
           <span>Sign up with Google</span>
         </button>

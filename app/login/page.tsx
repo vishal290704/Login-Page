@@ -9,14 +9,15 @@ const Login = () => {
 const [email, setEmail] = useState("")
 const [password, setPassword] = useState("")
 const router = useRouter()
-const session = useSession()
-console.log(session?.data?.user)
+// const session = useSession()
+// console.log(session?.data?.user)
 const handleSignIn = async (e:any)=>{
   e.preventDefault()
    try {
     const result = await signIn('credentials', {
       email, password
-    } )
+    })
+    router.push("/")
    } catch (error) {
     console.log(error)
    }
@@ -62,7 +63,15 @@ const handleSignIn = async (e:any)=>{
           <span> OR </span>
           <hr className="flex-grow border-gray-500" />
         </div>
-        <button className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-300 transition-colors">
+        <button className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-400 rounded-lg bg-white text-black hover:bg-gray-300 transition-colors"
+         onClick=
+         {async () =>{
+          await signIn('google', {
+         callbackUrl:"/"
+          })
+         
+        }}
+        >
           <FcGoogle />
           <span>Sign In with Google</span>
         </button>
