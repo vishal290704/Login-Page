@@ -5,7 +5,7 @@
     name: string
     image: string
     email: string
-    password: string
+    password?: string
     createdAt?: Date
     updatedAt? : Date
  }
@@ -21,7 +21,7 @@
     },
     password:{
         type:String,
-        required:true
+        required:false
     },
     image:{
         type: String
