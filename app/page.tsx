@@ -15,6 +15,7 @@ const page = () => {
         {data.user.image && <div className='relative w-[200px] h-[200px] rounded-full border-2 border-white overflow-hidden'>
           <Image src={data.user.image} fill alt='userImage' />
         </div>}
+        <h1>Welcome, {data.user.name}</h1>
         </div>}
       {!data && <div className='text-white text-2xl'>Loading...</div>}
     </div>
