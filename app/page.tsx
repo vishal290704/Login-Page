@@ -1,12 +1,23 @@
 'use client'
 import { log } from 'console'
-import { useSession } from 'next-auth/react'
-import React from 'react'
+import { signOut, useSession } from 'next-auth/react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 
 const page = () => {
   const {data} = useSession()
   console.log(data)
+  const [loading, setLoading] = useState(false);
+  const handleSignOut = async () =>{
+    setLoading(true)
+    try {
+
+      await signOut()
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+    }
+  }
   return (
 
     <div className='min-h-screen flex flex-col items-center justify-center bg-black text-white px-4'>
@@ -15,7 +26,10 @@ const page = () => {
         {data.user.image && <div className='relative w-[200px] h-[200px] rounded-full border-2 border-white overflow-hidden'>
           <Image src={data.user.image} fill alt='userImage' />
         </div>}
-        <h1>Welcome, {data.user.name}</h1>
+        <h1 className='text-2xl font-semibold my-4'>Welcome, {data.user.name}</h1>
+        <button className='w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors'
+        onClick={handleSignOut}
+        >Sign Out</button>
         </div>}
       {!data && <div className='text-white text-2xl'>Loading...</div>}
     </div>
