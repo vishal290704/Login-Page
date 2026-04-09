@@ -1,13 +1,22 @@
 'use client'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CgProfile } from "react-icons/cg";
 const page = () => {
     const {data} = useSession()
     const [name, setName] = useState("")
     const [frontendImage, setFrontendImage] = useState("")
-    const [backendImage, setBackendImage] = useState(null)
+    const [backendImage, setBackendImage] = useState<File>()
+    const imageInput = useRef<HTMLInputElement>(null)
+
+    const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files
+      if(!files || files.length == 0) return
+        const file = files[0]
+      
+    }
+    
     useEffect(()=>{
         if(data){
           setName(data?.user.name as string)
@@ -19,7 +28,10 @@ const page = () => {
         <div className='w-full max-w-md border-2 border-white rounded-2xl p-8 shadow-lg'>
         <h1 className='text-2xl font-semibold text-center mb-2'>Edit Profile</h1>
         <form className='space-y-2 flex flex-col w-full items-center'>
-            <div className='w-[100px] h-[100px] rounded-full border-2 flex justify-center items-center border-white transition-all hover:border-blue-500 text-white hover:border-blue-500 cursor-pointer overflow-hidden relative'>
+            <div className='w-[100px] h-[100px] rounded-full border-2 flex justify-center items-center border-white transition-all hover:border-blue-500 text-white hover:border-blue-500 cursor-pointer overflow-hidden relative'
+            onClick={()=>imageInput.current?.click()}
+            >
+              <input type='file' accept='image/*' hidden ref={imageInput} onChange={handleImage}/>
               {frontendImage ? <Image src={frontendImage} fill alt='image'/>:<CgProfile size={22} color='white'/>
 }
             </div>
@@ -33,6 +45,7 @@ const page = () => {
               value={name}
             />
           </div>
+          <button className='w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors'>Save</button>
         </form>
         </div>
     </div>
