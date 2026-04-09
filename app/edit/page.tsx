@@ -6,9 +6,12 @@ import { CgProfile } from "react-icons/cg";
 const page = () => {
     const {data} = useSession()
     const [name, setName] = useState("")
+    const [frontendImage, setFrontendImage] = useState("")
+    const [backendImage, setBackendImage] = useState(null)
     useEffect(()=>{
         if(data){
           setName(data?.user.name as string)
+          setFrontendImage(data?.user.image as string)
         }
     },[data])
   return (
@@ -17,7 +20,7 @@ const page = () => {
         <h1 className='text-2xl font-semibold text-center mb-2'>Edit Profile</h1>
         <form className='space-y-2 flex flex-col w-full items-center'>
             <div className='w-[100px] h-[100px] rounded-full border-2 flex justify-center items-center border-white transition-all hover:border-blue-500 text-white hover:border-blue-500 cursor-pointer overflow-hidden relative'>
-              {data?.user.image ? <Image src={data.user.image} fill alt='image'/>:<CgProfile size={22} color='white'/>
+              {frontendImage ? <Image src={frontendImage} fill alt='image'/>:<CgProfile size={22} color='white'/>
 }
             </div>
              <div className='w-full'>
