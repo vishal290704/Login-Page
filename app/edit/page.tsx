@@ -14,6 +14,8 @@ const page = () => {
       const files = e.target.files
       if(!files || files.length == 0) return
         const file = files[0]
+        setBackendImage(file)
+        setFrontendImage(URL.createObjectURL(file))
       
     }
     
