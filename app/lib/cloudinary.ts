@@ -6,7 +6,18 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (file:Blob | null):Promise<string | null> => {
+    if(!file){
+        return null;
+    }
+   try {
+    const arrayBuffer = await file?.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
     return new Promise((resolve, reject)=>{
-        
+
     })
+   } catch (error) {
+    
+   }
+   
+    
 }
