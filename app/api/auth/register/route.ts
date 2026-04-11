@@ -2,7 +2,6 @@ import connectDB from "@/app/lib/db";
 import User from "@/app/model/user.model";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-import { use } from "react";
 
 //status code details
 //For success: 200-300
