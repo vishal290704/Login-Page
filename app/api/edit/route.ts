@@ -25,7 +25,7 @@ export async function POST(req:NextRequest) {
 
         const user = await User.findByIdAndUpdate(session.user.id,{
             name, image:imageUrl
-        })
+        },{new:true})
 
         if(!user){
             return NextResponse.json(
@@ -33,7 +33,14 @@ export async function POST(req:NextRequest) {
                 {status:400}
             )
         }
+         return NextResponse.json(
+             user,
+                {status:200}
+            )
     } catch (error) {
-        
+         return NextResponse.json(
+                {message:`edit error ${error}`},
+                {status:500}
+            )
     }
 }
