@@ -1,3 +1,4 @@
+import authOptions from "@/app/lib/auth";
 import uploadOnCloudinary from "@/app/lib/cloudinary";
 import connectDB from "@/app/lib/db";
 import User from "@/app/model/user.model";
@@ -7,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req:NextRequest) {
     try {
         await connectDB()
-        const session = await getServerSession()
+        const session = await getServerSession(authOptions)
         if(!session || !session.user.email || !session.user.id){
             return NextResponse.json(
                 {message:"user doesn't have session"},
@@ -25,7 +26,7 @@ export async function POST(req:NextRequest) {
 
         const user = await User.findByIdAndUpdate(session.user.id,{
             name, image:imageUrl
-        },{new:true})
+        },{ returnDocument: 'after' })
 
         if(!user){
             return NextResponse.json(

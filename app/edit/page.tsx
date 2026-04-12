@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { CgProfile } from "react-icons/cg";
-const page = () => {
+const Page = () => {
     const {data} = useSession()
     const [name, setName] = useState("")
     const [frontendImage, setFrontendImage] = useState("")
@@ -18,15 +18,15 @@ const page = () => {
         setBackendImage(file)
         setFrontendImage(URL.createObjectURL(file))
     }
-    const handleSubmit = async (e:any) =>{
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
       e.preventDefault()
       try {
         const formData = new FormData()
         formData.append("name", name)
         if(backendImage){
-          
+          formData.append('file', backendImage)
         }
-        const result = await axios.post('/api/edit')
+        const result = await axios.post('/api/edit', formData)
       } catch (error) {
         
       }
@@ -47,7 +47,8 @@ const page = () => {
             onClick={()=>imageInput.current?.click()}
             >
               <input type='file' accept='image/*' hidden ref={imageInput} onChange={handleImage}/>
-              {frontendImage ? <Image src={frontendImage} fill alt='image'/>:<CgProfile size={22} color='white'/>
+              {frontendImage ? (<Image src={frontendImage} fill alt='image' className="object-cover"
+    unoptimized/>):(<CgProfile size={22} color='white'/>)
 }
             </div>
              <div className='w-full'>
@@ -67,4 +68,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
