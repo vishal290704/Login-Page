@@ -27,8 +27,9 @@ const Page = () => {
           formData.append('file', backendImage)
         }
         const result = await axios.post('/api/edit', formData)
+        console.log(result)
       } catch (error) {
-        
+        console.log(error)
       }
     }
     
