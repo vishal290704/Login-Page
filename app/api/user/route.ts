@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         { message: "user doesn't have session" },
         { status: 400 },
-      );
+      )
     }
     const user = await User.findById(session.user.id).select("-password");
     if (!user) {
@@ -24,5 +24,10 @@ export async function GET(req: NextRequest) {
         user,
         {status:200}
     )
-  } catch (error) {}
+  } catch (error) {
+      return NextResponse.json(
+        { message: `user get error ${error}`},
+        { status: 500 },
+      )
+  }
 }
