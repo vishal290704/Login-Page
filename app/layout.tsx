@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import ClientProvider from "./ClientProvider";
+import UserContext from "./context/UserContext";
 
 
 
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClientProvider>
+          <UserContext>
         {children}
+        </UserContext>
         </ClientProvider>
       </body>
     </html>
