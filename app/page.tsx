@@ -6,10 +6,9 @@ import Image from 'next/image'
 import { HiPencil } from "react-icons/hi2";
 import { useRouter } from 'next/navigation'
 import { userDataContext } from './context/UserContext';
-
 const page = () => {
   const data = useContext(userDataContext)
-
+  // const {data} = useSession()
   console.log(data)
   const router = useRouter();
   const [loading, setLoading] = useState(false);

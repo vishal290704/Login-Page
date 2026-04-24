@@ -1,5 +1,6 @@
 'use client'
 import axios from 'axios'
+import { useSession } from "next-auth/react";
 import { error } from 'console'
 import React, { ReactNode, useEffect, useState } from 'react'
 type userContextType={
@@ -15,6 +16,7 @@ type userType={
 export const userDataContext = React.createContext<userContextType | undefined>(undefined)
 const UserContext = ({children}:{children:ReactNode}) => {
     const [user, setUser] = useState<userType | null>()
+    const session = useSession()
     const data = {
         user, setUser
     }
@@ -29,7 +31,7 @@ const UserContext = ({children}:{children:ReactNode}) => {
     }
    }
    getUser()
-    }, [])
+    }, [session])
     
   return (
    <userDataContext.Provider value={data}>

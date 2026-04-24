@@ -1,15 +1,18 @@
 'use client'
 import axios from 'axios';
 import { useSession } from 'next-auth/react'
+import { userDataContext } from '../context/UserContext';
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useContext, useEffect, useRef, useState } from 'react'
 import { CgProfile } from "react-icons/cg";
 const Page = () => {
-    const {data} = useSession()
+const data = useContext(userDataContext)
+    // const {data} = useSession()
     const [name, setName] = useState("")
     const [frontendImage, setFrontendImage] = useState("")
     const [backendImage, setBackendImage] = useState<File>()
     const imageInput = useRef<HTMLInputElement>(null)
+    const [loading, setLoading] = useState(false)
 
     const handleImage = (e:React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files
@@ -20,6 +23,7 @@ const Page = () => {
     }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
       e.preventDefault()
+      setLoading(true)
       try {
         const formData = new FormData()
         formData.append("name", name)
@@ -27,16 +31,18 @@ const Page = () => {
           formData.append('file', backendImage)
         }
         const result = await axios.post('/api/edit', formData)
-        console.log(result)
+        setLoading(false)
+        data?.setUser(result.data )
       } catch (error) {
         console.log(error)
+        setLoading(false)
       }
     }
     
     useEffect(()=>{
         if(data){
-          setName(data?.user.name as string)
-          setFrontendImage(data?.user.image as string)
+          setName(data?.user?.name as string)
+          setFrontendImage(data?.user?.image as string)
         }
     },[data])
   return (
@@ -62,7 +68,7 @@ const Page = () => {
               value={name}
             />
           </div>
-          <button className='w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors'>Save</button>
+          <button className='w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors' disabled={loading}>{loading?"Saving...":"Save"}</button>
         </form>
         </div>
     </div>
