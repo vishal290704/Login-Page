@@ -1,8 +1,9 @@
+'use client'
 import axios from 'axios'
 import { error } from 'console'
 import React, { ReactNode, useEffect, useState } from 'react'
 type userContextType={
-user:userType,
+user:userType | null | undefined,
 setUser:(user:userType)=>void
 }
 type userType={
@@ -11,9 +12,12 @@ type userType={
     id:string,
     image?:string
 }
-const userDataContext = React.createContext<userContextType | undefined>(undefined)
+export const userDataContext = React.createContext<userContextType | undefined>(undefined)
 const UserContext = ({children}:{children:ReactNode}) => {
-    const [user, setUser] = useState<userType>()
+    const [user, setUser] = useState<userType | null>()
+    const data = {
+        user, setUser
+    }
     useEffect(() => {
    async function getUser() {
     try {
@@ -28,9 +32,9 @@ const UserContext = ({children}:{children:ReactNode}) => {
     }, [])
     
   return (
-    <div>
-
-    </div>
+   <userDataContext.Provider value={data}>
+    {children}
+   </userDataContext.Provider>
   )
 }
 
